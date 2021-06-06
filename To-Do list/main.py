@@ -1,4 +1,5 @@
 from tkinter import *
+
 window = Tk()
 
 # you can change the title of the window
