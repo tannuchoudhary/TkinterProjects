@@ -199,6 +199,7 @@ btnrow4.pack(expand=True, fill="both")
 
 # The buttons section
 # now set 4 buttons in each row
+#grrove sets the effect of button
 btn1 = Button(
     btnrow1,
     text="1",
