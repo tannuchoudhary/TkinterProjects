@@ -159,6 +159,7 @@ def result():
         if x == 0:
             messagebox.showerror("Error", "Division By 0 Not Allowed")
             # now you have to erase every data
+            #as user has entered wrong value, so everything has to be cleared after showing error
             A = ""
             val = ""
             data.set(val)
