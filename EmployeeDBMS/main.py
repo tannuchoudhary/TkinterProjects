@@ -6,8 +6,11 @@ import datetime
 import time
 import tempfile
 import os
+import EmployeeDatabase
+# we have imported employee DB file, which is our backend, i am going to write that file now
 
 
+# THIS IS OUR FRONTEND
 class Employee:
     #__init__ is constructor in python
     def __init__(self, root):
@@ -72,6 +75,33 @@ class Employee:
                              padx=2, bg="gainsboro", relief=RIDGE)
         RightFrame2d.pack(side=TOP)
 
+        #---------------------- FUNCTIONS---------------------------------
+        def Reset():
+            Firstname.set("")
+            Surname.set("")
+            Address.set("")
+            Reference.set("")
+            CityWeighting.set("")
+            Mobile.set("")
+            BasicSalary.set("")
+            OverTime.set("")
+            GrossPay.set("")
+            NetPay.set("")
+            Tax.set("")
+            Pension.set("")
+            stdLoan.set("")
+            NIPayment.set("")
+            Deductions.set("")
+            Gender.set("")
+            Payday.set("")
+            TaxPeriod.set("")
+            NINumber.set("")
+            NICode.set("")
+            TaxablePay.set("")
+            PensionablePay.set("")
+            TaxCode.set("")
+            OtherPaymentDue.set("0.00")
+            self.txtReceipt.delete("1.0", END)
         # ------------------------------VARIABLES------------------------------
 
         global Ed
@@ -150,7 +180,7 @@ class Employee:
                                 text="Address", bd=7, bg="gainsboro", anchor='w')
         self.lblAddress.grid(row=3, column=0, sticky=W, padx=5)
         self.txtAddress = Entry(LeftFrame1, font=('arial', 12, 'bold'),
-                                bd=5, width=60, justify='left', textvariable=Surname)
+                                bd=5, width=60, justify='left', textvariable=Address)
         self.txtAddress.grid(row=3, column=1)
 
         self.lblGender = Label(LeftFrame1, font=('arial', 12, 'bold'),
@@ -300,8 +330,31 @@ class Employee:
                                    bd=5, width=17, justify='left', textvariable=Deductions)
         self.txtDeductions.grid(row=2, column=1)
 
+        # ---------------------------ADD BUTTONS-----------------------------------------
 
-        #--------------------------------------------------------------------
+        self.btnAddNewTotal = Button(TopFrame1, pady=1, bd=4, fg="black", font=('arial', 16, 'bold'), padx=24,
+                                     width=8, text="AddNew/Total").grid(row=0, column=0, padx=1)
+
+        self.btnPrint = Button(TopFrame1, pady=1, bd=4, fg="black", font=('arial', 16, 'bold'), padx=24,
+                               width=8, text="Print").grid(row=0, column=1, padx=1)
+
+        self.btnDisplay = Button(TopFrame1, pady=1, bd=4, fg="black", font=('arial', 16, 'bold'), padx=24,
+                                 width=8, text="Display").grid(row=0, column=2, padx=1)
+
+        self.btnUpdate = Button(TopFrame1, pady=1, bd=4, fg="black", font=('arial', 16, 'bold'), padx=24,
+                                width=8, text="Update").grid(row=0, column=3, padx=1)
+
+        self.btnDelete = Button(TopFrame1, pady=1, bd=4, fg="black", font=('arial', 16, 'bold'), padx=24,
+                                width=8, text="Delete").grid(row=0, column=4, padx=1)
+
+        self.btnSearch = Button(TopFrame1, pady=1, bd=4, fg="black", font=('arial', 16, 'bold'), padx=24,
+                                width=8, text="Search").grid(row=0, column=5, padx=1)
+
+        self.btnReset = Button(TopFrame1, pady=1, bd=4, fg="black", font=('arial', 16, 'bold'), padx=24,
+                               width=8, text="Reset", command=Reset).grid(row=0, column=6, padx=1)
+
+        self.btnExit = Button(TopFrame1, pady=1, bd=4, fg="black", font=('arial', 16, 'bold'), padx=24,
+                              width=8, text="Exit").grid(row=0, column=7, padx=1)
 
 
 if __name__ == '__main__':
