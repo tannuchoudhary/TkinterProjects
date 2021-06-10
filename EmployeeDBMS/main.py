@@ -75,33 +75,6 @@ class Employee:
                              padx=2, bg="gainsboro", relief=RIDGE)
         RightFrame2d.pack(side=TOP)
 
-        #---------------------- FUNCTIONS---------------------------------
-        def Reset():
-            Firstname.set("")
-            Surname.set("")
-            Address.set("")
-            Reference.set("")
-            CityWeighting.set("")
-            Mobile.set("")
-            BasicSalary.set("")
-            OverTime.set("")
-            GrossPay.set("")
-            NetPay.set("")
-            Tax.set("")
-            Pension.set("")
-            stdLoan.set("")
-            NIPayment.set("")
-            Deductions.set("")
-            Gender.set("")
-            Payday.set("")
-            TaxPeriod.set("")
-            NINumber.set("")
-            NICode.set("")
-            TaxablePay.set("")
-            PensionablePay.set("")
-            TaxCode.set("")
-            OtherPaymentDue.set("0.00")
-            self.txtReceipt.delete("1.0", END)
         # ------------------------------VARIABLES------------------------------
 
         global Ed
@@ -133,6 +106,223 @@ class Employee:
         CityWeighting.set("")
         BasicSalary.set("")
         OtherPaymentDue.set("0.00")
+        #---------------------- FUNCTIONS---------------------------------
+        def addData():
+            if(len(Reference.get())!=0):
+                EmployeeDatabase.addEmployeeRec(Reference.get(), Firstname.get(), Surname.get(), Address.get(), Gender.get(),
+                Mobile.get(), NINumber.get(), stdLoan.get(), Tax.get(), pension.get(), Deductions.get(), NetPay.get(), GrossPay.get())
+                lstEmployee.delete(0, END)
+                lstEmployee.insert(END, (Reference.get(), Firstname.get(), Surname.get(), Address.get(), Gender.get(),
+                Mobile.get(), NINumber.get(), stdLoan.get(), Tax.get(), pension.get(), Deductions.get(), NetPay.get(), GrossPay.get()))
+
+
+
+
+        def DisplayData():
+            lstEmployee.delete(0, END)
+            for row in EmployeeDatabase.viewData():
+                lstEmployee.insert(END, row, str(""))
+
+        #curselection returns the index of currently selected item
+
+        def EmployeeRec(event):
+            global Ed
+            searchEd = lstEmployee.curselection() [0]
+            Ed = lstEmployee.get(searchEd)
+
+            self.txtReference.delete(0, END)
+            self.txtReference.insert(END, ED[1])
+
+            self.txtFirstname.delete(0, END)
+            self.txtFirstname.insert(END, ED[2])
+
+            self.txtSurname.delete(0, END)
+            self.txtSurname.insert(END, ED[3])
+
+            self.txtAddress.delete(0, END)
+            self.txtAddress.insert(END, ED[4])
+
+            self.txtGender.delete(0, END)
+            self.txtGender.insert(END, ED[5])
+
+            self.txtMobile.delete(0, END)
+            self.txtMobile.insert(END, ED[6])
+
+
+            self.txtNINumber.delete(0, END)
+            self.txtNINumber.insert(END, ED[7])
+
+            self.txtstdLoan.delete(0, END)
+            self.txtstdLoan.insert(END, ED[8])
+
+            self.txtTax.delete(0, END)
+            self.txtTax.insert(END, ED[9])
+
+            self.txtPension.delete(0, END)
+            self.txtPension.insert(END, ED[10])
+
+            self.txtDeductions.delete(0, END)
+            self.txtDeductions.insert(END, ED[11])
+
+            self.txtNetPay.delete(0, END)
+            self.txtNetPay.insert(END, ED[12])
+
+            self.txtGrossPay.delete(0, END)
+            self.txtGrossPay.insert(END, ED[13])
+
+    #----------------------implement delete data--------------------------------
+
+        def DeleteData():
+            if(len(Reference.get())!=0):
+                EmployeeDatabase.deleteRec(Ed[0])
+                Reset()
+                DisplayData()
+
+    #----------------------implement search data--------------------------------
+        def searchData():
+            lstEmployee.delete(0, END)
+            for row in EmployeeDatabase.searchData(Reference.get(), Firstname.get(), Surname.get(), Address.get(), Gender.get(),
+            Mobile.get(), NINumber.get(), stdLoan.get(), Tax.get(), pension.get(), Deductions.get(), NetPay.get(), GrossPay.get()):
+                lstEmployee.insert(END, row, str(""))
+
+        def Update():
+            if(len(Reference.get())!=0):
+                EmployeeDatabase.deleteRec(Ed[0])
+
+            if(len(Reference.get())!=0):
+                EmployeeDatabase.addEmployeeRec(Reference.get(), Firstname.get(), Surname.get(), Address.get(), Gender.get(),
+                Mobile.get(), NINumber.get(), stdLoan.get(), Tax.get(), pension.get(), Deductions.get(), NetPay.get(), GrossPay.get())
+                lstEmployee.delete(0, END)
+                lstEmployee.insert(END, (Reference.get(), Firstname.get(), Surname.get(), Address.get(), Gender.get(),
+                Mobile.get(), NINumber.get(), stdLoan.get(), Tax.get(), pension.get(), Deductions.get(), NetPay.get(), GrossPay.get()))
+
+       #----------IMPLEMENTED PRINT FUNCTION------------------------------
+        def iPrint():
+            q=self.txtReceipt.get("1.0", "end - 1c")
+            filename = tempfile.mktemp(".txt")
+            open (filename, "w").write(q)
+            os.startfile(filename, "print")
+
+        #-------IMPLEMENTED RESET FUNCTION----------------------------------
+        def Reset():
+            Firstname.set("")
+            Surname.set("")
+            Address.set("")
+            Reference.set("")
+            CityWeighting.set("")
+            Mobile.set("")
+            BasicSalary.set("")
+            OverTime.set("")
+            GrossPay.set("")
+            NetPay.set("")
+            Tax.set("")
+            Pension.set("")
+            stdLoan.set("")
+            NIPayment.set("")
+            Deductions.set("")
+            Gender.set("")
+            Payday.set("")
+            TaxPeriod.set("")
+            NINumber.set("")
+            NICode.set("")
+            TaxablePay.set("")
+            PensionablePay.set("")
+            TaxCode.set("")
+            OtherPaymentDue.set("0.00")
+            self.txtReceipt.delete("1.0", END)
+
+
+        #--------------QUIT FUNCTION IMPLEMENTED-----------------------------------
+        def iQuit():
+            iQuit = tkinter.messagebox.askyesno("Employee Database System", "Confirm if you want exit")
+            if iQuit > 0:
+                root.destroy()
+                return
+
+        def PayRef():
+            Payday.set(time.strftime("%d/%m/%y"))
+            Refpay = random.randint(16462, 708488)
+            Refpaid = ("Ref" + str(Refpay))
+            Reference.set(Refpaid)
+
+            NIpay = random.randint(34051, 409785)
+            NIpaid = ("NI" + str(NIpay))
+            NINumber.set(NIpay)
+
+            iDate = datetime.datetime.now()
+            TaxPeriod.set(iDate.month)
+
+            NCode = random.randint(1290, 13123)
+            CodeNI = ("NIC" + str(NCode))
+            NICode.set(CodeNI)
+
+            iTaxCode = random.randint(7509, 15075)
+            PaymentTaxCode = ("TCode" + str(iTaxCode))
+            TaxCode.set(PaymentTaxCode)
+
+        def MonthlySalary():
+            PayRef()
+
+            BS =float(BasicSalary.get())
+            CW = float(CityWeighting.get())
+            OT = float(OverTime.get())
+            OPD = float(OtherPaymentDue.get())
+
+            MTax = ((BS + CW + OT + OPD) + 0.3)
+            TTAX = "Rs", str('%.2f'%(MTax))
+            Tax.set(TTax)
+
+            M_Pension = ((BS + CW + OT + OPD) + 0.2)
+            MM_Pension = "Rs", str('%.2f'%(M_Pension))
+            Pension.set(MM_Pension)
+
+
+            M_stdLoan = ((BS + CW + OT + OPD) + 0.012)
+            MM_stdLoan = "Rs", str('%.2f'%(M_stdLoan))
+            stdLoan.set(MM_stdLoan)
+
+            M_NIPayment = ((BS + CW + OT + OPD) + 0.011)
+            MM_NIPayment = "Rs", str('%.2f'%(M_NIPayment))
+            NIPayment.set(MM_NIPayment)
+
+
+            Deduct = (MTax + M_pension + M_stdLoan + M_NIPayment)
+            Deduct_Payment = "Rs", str('%.2f'%(Deduct))
+            Deductions.set(Deduct_Payment)
+            Gross_Pay = "Rs", str('%.2f' %(BS + CW + OT+ OPD))
+            Gross_Pay.set(Gross_Pay)
+
+            NetPayAfter = ((BS + CW + OT + OPD) - Deduct)
+            NetAfter = "Rs", str('%.2f'%(NetPayAfter))
+            NetPay.set(NetAfter)
+
+            TaxablePay.set(TTax)
+            PensionablePay.set(MM_Pension)
+
+            self.txtReceipt.insert(END, '\t\t Monthly Pay Slip' + "\n\n")
+            self.txtReceipt.insert(END, 'Reference: \t\t\t' + Reference.get() + "\n")
+            self.txtReceipt.insert(END, 'Reference: \t\t\t' + payday.get() + "\n")
+            self.txtReceipt.insert(END, 'Employer Name: \t\t\t' + Surname.get() + "\n")
+            self.txtReceipt.insert(END, 'Employer Name: \t\t\t' + Firstname.get() + "\n\n")
+            self.txtReceipt.insert(END, 'Tax: \t\t\t' + Tax.get() + "\n")
+            self.txtReceipt.insert(END, 'Pension: \t\t\t' + Pension.get() + "\n")
+            self.txtReceipt.insert(END, 'Student Loan: \t\t\t' + StdLoan.get() + "\n")
+            self.txtReceipt.insert(END, 'NI Number: \t\t\t' + NINumber.get() + "\n")
+            self.txtReceipt.insert(END, 'NI Payment: \t\t\t' + NIPayment.get() + "\n")
+            self.txtReceipt.insert(END, 'Deductions: \t\t\t' + Deductions.get() + "\n")
+            self.txtReceipt.insert(END, 'City Weighting: \t\t\t' + str('Rs %.2f' %(CityWeighting.get())) + "\n")
+
+            self.txtReceipt.insert(END, '\ntax Paid: \t\t\t' + str('Rs %.2f' %(BasicSalary.get())) + "\n")
+            self.txtReceipt.insert(END, 'OverTime: \t\t\t' + "Rs" + OverTime.get() + "\n")
+            self.txtReceipt.insert(END, 'NetPay: \t\t\t' + NetPay.get() + "\n")
+            self.txtReceipt.insert(END, 'GrossPay: \t\t\t' + GrossPay.get() + "\n")
+
+            addData()
+
+
+
+
+
 
         # --------------------------RECEIPT-----------------------------------
         self.txtReceipt = Text(RightFrame1a, height=23, width=42, bd=10, font=('arial', 9, 'bold'))
@@ -149,7 +339,7 @@ class Employee:
 
         lstEmployee = Listbox(TopFrame2, width=145, height=5, font=(
             'arial', 12, 'bold'), yscrollcommand=scrollbar.set)
-        lstEmployee.bind('<<ListboxSelect>>')
+        lstEmployee.bind('<<ListboxSelect>>', EmployeeRec)
         lstEmployee.grid(row=1, column=0, padx=1, sticky='nsew')
         scrollbar.config(command=lstEmployee.xview)
 
@@ -333,28 +523,28 @@ class Employee:
         # ---------------------------ADD BUTTONS-----------------------------------------
 
         self.btnAddNewTotal = Button(TopFrame1, pady=1, bd=4, fg="black", font=('arial', 16, 'bold'), padx=24,
-                                     width=8, text="AddNew/Total").grid(row=0, column=0, padx=1)
+                                     width=8, text="AddNew/Total", command=MonthlySalary).grid(row=0, column=0, padx=1)
 
         self.btnPrint = Button(TopFrame1, pady=1, bd=4, fg="black", font=('arial', 16, 'bold'), padx=24,
-                               width=8, text="Print").grid(row=0, column=1, padx=1)
+                               width=8, text="Print", command=iPrint).grid(row=0, column=1, padx=1)
 
         self.btnDisplay = Button(TopFrame1, pady=1, bd=4, fg="black", font=('arial', 16, 'bold'), padx=24,
-                                 width=8, text="Display").grid(row=0, column=2, padx=1)
+                                 width=8, text="Display", command=DisplayData).grid(row=0, column=2, padx=1)
 
         self.btnUpdate = Button(TopFrame1, pady=1, bd=4, fg="black", font=('arial', 16, 'bold'), padx=24,
-                                width=8, text="Update").grid(row=0, column=3, padx=1)
+                                width=8, text="Update", command=Update).grid(row=0, column=3, padx=1)
 
         self.btnDelete = Button(TopFrame1, pady=1, bd=4, fg="black", font=('arial', 16, 'bold'), padx=24,
-                                width=8, text="Delete").grid(row=0, column=4, padx=1)
+                                width=8, text="Delete", command=DeleteData).grid(row=0, column=4, padx=1)
 
         self.btnSearch = Button(TopFrame1, pady=1, bd=4, fg="black", font=('arial', 16, 'bold'), padx=24,
-                                width=8, text="Search").grid(row=0, column=5, padx=1)
+                                width=8, text="Search", command=searchData).grid(row=0, column=5, padx=1)
 
         self.btnReset = Button(TopFrame1, pady=1, bd=4, fg="black", font=('arial', 16, 'bold'), padx=24,
                                width=8, text="Reset", command=Reset).grid(row=0, column=6, padx=1)
 
         self.btnExit = Button(TopFrame1, pady=1, bd=4, fg="black", font=('arial', 16, 'bold'), padx=24,
-                              width=8, text="Exit").grid(row=0, column=7, padx=1)
+                              width=8, text="Exit", command=iQuit).grid(row=0, column=7, padx=1)
 
 
 if __name__ == '__main__':
