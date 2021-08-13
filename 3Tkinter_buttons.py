@@ -2,7 +2,7 @@ from tkinter import*
 
 window = Tk()
 
-#bd = boundary
+#bd = border
 #bg = background
 #fg = foreground
 # padx = horizontal padding
